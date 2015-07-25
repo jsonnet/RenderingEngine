@@ -53,9 +53,11 @@ public class Window implements Runnable {
 
     @Override
     public void run() {
+
         while (isRunning) {
 
         }
+
         this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
     }
 
