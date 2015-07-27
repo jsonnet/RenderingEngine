@@ -5,13 +5,15 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 
 /**
- * Created by Joshua on 25.07.2015.
+ * RenderEngine created by Joshua S. on 25.07.2015.
  */
 public class Window implements Runnable {
     //Window size
     public int WIDTH, HEIGHT;
     //Window title
     public String TITLE;
+    //Updates per sec
+    public int TARGET_UPS;
     //Is the specific window running
     public boolean isRunning;
     //Actual window
@@ -25,7 +27,7 @@ public class Window implements Runnable {
         //Create window
         this.frame = new JFrame(TITLE);
         //Correctly terminate program
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //Set window size
         this.frame.getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
         //Update window
@@ -51,11 +53,55 @@ public class Window implements Runnable {
         isRunning = false;
     }
 
+    public void tick() {
+
+    }
+
+    public void render() {
+
+    }
+
     @Override
     public void run() {
+        int fps = 0, tick = 0;
+        double fpsTimer = System.currentTimeMillis();
+
+        // sec per Update
+        double SpU = 1D / TARGET_UPS;
+        // nanosec per Tick
+        double NspT = SpU * 1000000000D;
+        double then = System.nanoTime();
+        double now;
+        //Count of unprocessed Frames
+        double unprocessed = 0;
+
 
         while (isRunning) {
+            now = System.nanoTime();
+            unprocessed += (now - then) / NspT;
+            then = now;
 
+            while (unprocessed >= 1) {
+                tick();
+                tick++;
+                unprocessed--;
+            }
+
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            render();
+            fps++;
+
+            if (System.currentTimeMillis() - fpsTimer >= 1000) {
+                System.out.printf("FPS: %d, UPS: %d%n", fps, tick);
+                fps = 0;
+                tick = 0;
+                fpsTimer += 1000;
+            }
         }
 
         this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
