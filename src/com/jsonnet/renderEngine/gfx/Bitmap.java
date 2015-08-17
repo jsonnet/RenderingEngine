@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Created by Joshua on 17.08.2015.
+ * Created by Joshua on 17.08.2015
  */
 public class Bitmap {
 

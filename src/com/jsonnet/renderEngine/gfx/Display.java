@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 /**
- * Created by Joshua on 17.08.2015.
+ * Created by Joshua on 17.08.2015
  */
 public class Display extends Canvas {
 
