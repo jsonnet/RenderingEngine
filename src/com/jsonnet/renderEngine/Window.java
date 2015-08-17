@@ -105,7 +105,7 @@ public class Window implements Runnable {
         // Whenever this exceeds 1, call the tick() method
         double unprocessed = 0;
 
-        // The actual game loop
+        // The actual render loop
         while (isRunning) {
             // Stores current time
             now = System.nanoTime();
@@ -114,9 +114,9 @@ public class Window implements Runnable {
             // Update the timer
             then = now;
 
-            // To keep track of all the unprocessed frames we tick the game till we are on track again
+            // To keep track of all the unprocessed frames we tick the render till we are on track again
             while (unprocessed >= 1) {
-                // Tick the game
+                // Tick the render
                 tick();
                 // Add to the tick counter (TPS)
                 tick++;
@@ -124,7 +124,7 @@ public class Window implements Runnable {
                 unprocessed--;
             }
 
-            // This is NOT to sleep, but to limit the game loop
+            // This is NOT to sleep, but to limit the render loop
             try {
                 // Sleeps 1 ms
                 Thread.sleep(1);
@@ -150,7 +150,7 @@ public class Window implements Runnable {
             }
         }
 
-        // When the gameloop is finished running, close the program
+        // When the renderloop is finished running, close the program
         this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
     }
 
